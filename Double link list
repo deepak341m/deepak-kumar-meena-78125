@@ -1,5 +1,6 @@
-#include<iostream>
+#include<iostream.h>
 #include<stdio.h>
+#include<process.h>
 
 using namespace std;
 
