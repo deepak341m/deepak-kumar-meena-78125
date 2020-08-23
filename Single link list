@@ -1,6 +1,6 @@
-#include<iostream.h>
+#include<iostream>
 #include<stdio.h>
-#include<process.h>
+#include<cstlib>
 using namespace std;
 
 template <class t>
