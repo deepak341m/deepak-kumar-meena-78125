@@ -1,0 +1,108 @@
+#include<iostream>
+#include<stdio.h>
+#include<cstdlib>
+
+using namespace std;
+
+struct Node
+{
+	int data;
+	Node *next;
+};
+
+
+class Stack
+{
+    Node *first,*last;
+
+  public:
+
+	Stack()
+	{
+		first=last=NULL;
+	}
+	void push()
+	{
+		int value;
+		Node *ptr;
+
+		cout<<"\nEnter the number to be pushed : ";
+		cin>>value;
+
+		ptr = new Node;
+		ptr->data = value;
+		ptr->next = NULL;
+
+		if(first==NULL)
+		{
+			first = last = ptr;
+			last->next = NULL;
+		}
+		else
+		{
+			last->next = ptr;
+			last = ptr;
+			ptr->next = NULL;
+		}
+
+	}
+
+
+	void pop()
+	{
+		Node *temp;
+
+		if(first==NULL)
+			cout<<"\nStack is Empty";
+		else
+		{
+			cout<<"\nDeleted element is : "<<first->data;
+			temp=first;
+			first=first->next;
+			delete temp;
+		}
+    }
+
+
+    void clear()
+    {
+    	Node *ptr1 = first;
+
+    	while(ptr1 != NULL)
+    	{
+    		cout<<ptr1->data<<"->";
+            Node *temp = ptr1->next;
+            delete ptr1;
+            ptr1 = temp;
+
+    	}
+        cout<<"NULL\n";
+    }
+};
+
+
+int main()
+{
+    Stack s;
+    int ch;
+    while(1)
+    {
+    	cout<<"\n1.PUSH\n2.POP\n3.CLEAR\n";
+    	cin>>ch;
+    	switch(ch)
+    	{
+          case 1:
+                  s.push();
+                  break;
+          case 2:
+                  s.pop();
+                  break;
+          case 3:
+                  s.clear();
+                  exit(0);
+          default:
+                  cout<<"\nEnter a valid choice";
+    	}
+    }
+	return 0;
+}
