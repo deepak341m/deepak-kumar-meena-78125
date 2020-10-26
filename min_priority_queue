@@ -1,0 +1,146 @@
+#include <iostream>
+#include <stdio.h>
+
+using namespace std;
+
+int tree_array_size = 20;
+int heap_size = 0;
+const int INF = 100000;
+
+void swap( int *a, int *b ) {
+  int t;
+  t = *a;
+  *a = *b;
+  *b = t;
+}
+
+int get_right_child(int A[], int index) {
+  if((((2*index)+1) < tree_array_size) && (index >= 1))
+    return (2*index)+1;
+  return -1;
+}
+
+int get_left_child(int A[], int index) {
+    if(((2*index) < tree_array_size) && (index >= 1))
+        return 2*index;
+    return -1;
+}
+
+int get_parent(int A[], int index) {
+  if ((index > 1) && (index < tree_array_size)) {
+    return index/2;
+  }
+  return -1;
+}
+
+void min_heapify(int A[], int index) {
+  int left_child_index = get_left_child(A, index);
+  int right_child_index = get_right_child(A, index);
+
+ int smallest = index;
+
+  if ((left_child_index <= heap_size) && (left_child_index>0)) {
+    if (A[left_child_index] < A[smallest]) {
+      smallest = left_child_index;
+    }
+  }
+
+  if ((right_child_index <= heap_size && (right_child_index>0))) {
+    if (A[right_child_index] < A[smallest]) {
+      smallest = right_child_index;
+    }
+  }
+
+   if (smallest != index) {
+    swap(&A[index], &A[smallest]);
+    min_heapify(A, smallest);
+  }
+}
+
+void build_min_heap(int A[]) {
+  int i;
+  for(i=heap_size/2; i>=1; i--) {
+    min_heapify(A, i);
+  }
+}
+
+int minimum(int A[]) {
+  return A[1];
+}
+
+int extract_min(int A[]) {
+  int minm = A[1];
+  A[1] = A[heap_size];
+  heap_size--;
+  min_heapify(A, 1);
+  return minm;
+}
+
+void decrease_key(int A[], int index, int key) {
+  A[index] = key;
+  while((index>1) && (A[get_parent(A, index)] > A[index])) {
+    swap(&A[index], &A[get_parent(A, index)]);
+    index = get_parent(A, index);
+  }
+}
+
+
+void insert(int A[], int key) {
+  heap_size++;
+  A[heap_size] = INF;
+  decrease_key(A, heap_size, key);
+}
+
+
+void print_heap(int A[])
+{
+  int i;
+  for(i=1; i<=heap_size; i++) {
+    cout<<A[i]<<"\n";
+    
+  }
+}
+
+
+int main() {
+  int A[tree_array_size];
+  insert(A, 20);
+  insert(A, 15);
+  insert(A, 8);
+  insert(A, 10);
+  insert(A, 5);
+  insert(A, 7);
+  insert(A, 6);
+  insert(A, 2);
+  insert(A, 9);
+  insert(A, 1);
+  int inp;
+  print_heap(A);
+  char ch='y';
+ do
+ {
+  cout<<"1) Heap-decrease_Key\n2) Min_Heap_Insert\n3) Heap_Minimum\n4) Heap_Extract_Min\n5)Print heap\n";
+  cin>>inp;
+  switch(inp)
+    {
+        case 1:
+        decrease_key(A, 5, 22);
+            break;
+        case 2:
+            break;
+        case 3:cout<<minimum(A)<<endl;
+            break;
+        case 4:cout<<extract_min(A)<<endl;
+            break;  
+        case 5:print_heap(A);
+            break;
+        default:
+            exit(0);
+    }
+    cout<<"Perform more operations?(y/n)";
+    cin>>ch;
+}while(ch=='y');
+
+
+  return 0;
+}
